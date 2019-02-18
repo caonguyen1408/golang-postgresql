@@ -52,3 +52,25 @@ func (pi *ProductItem) Save(db *pg.DB) error {
 	log.Printf("ProductItem %s insert successfull\n ", pi.Name)
 	return nil
 }
+
+// Delete data in table
+func (pi *ProductItem) Delete(db *pg.DB) error {
+	_, deleteErr := db.Model(pi).Where("name= ?name").Delete()
+	if deleteErr != nil {
+		log.Printf("Error while inserting new item into DB, Reason: %v\n", deleteErr)
+		return deleteErr
+	}
+	log.Printf("ProductItem %s delete successfull\n ", pi.Name)
+	return nil
+}
+
+//update database
+func (pi *ProductItem) Update(db *pg.DB) error {
+	_, updateErr := db.Model(pi).Set("name = ?name").Where("id= ?id").Update()
+	if updateErr != nil {
+		log.Printf("Error while inserting new item into DB, Reason: %v\n", updateErr)
+		return updateErr
+	}
+	log.Printf("ProductItem %s delete successfull\n ", pi.Name)
+	return nil
+}
