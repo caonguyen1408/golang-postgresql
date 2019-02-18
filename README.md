@@ -7,8 +7,8 @@ Install docker for postgresql
 Install postgresql admin
 
 ```
-docker run -p 8900:80 \
--e “PGADMIN_DEFAULT_EMAIL=ntcn14089@gmail.com” \
--e “PGADMIN_DEFAULT_PASSWORD=password” \
--d dpage/pgadmin4
+docker run --name some-pgadmin4 \
+           --link some-postgres:postgres \
+           -p 5050:5050 \
+           -d fenglc/pgadmin4
 ```
