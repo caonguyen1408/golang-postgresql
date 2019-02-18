@@ -26,8 +26,10 @@ type ProductItem struct {
 	IsActive  bool      `sql:"is_active"`
 }
 
+// Create table
 func createProdItemtable(db *pg.DB) error {
 	opts := &orm.CreateTableOptions{
+		//check if not exists create new
 		IfNotExists: true,
 	}
 	createErr := db.CreateTable(&ProductItem{}, opts)
@@ -36,5 +38,17 @@ func createProdItemtable(db *pg.DB) error {
 		return createErr
 	}
 	log.Printf("Table productItem created successful. \n")
+	return nil
+}
+
+// Insert in to table
+// define shortcut name (pi *ProductItem)
+func (pi *ProductItem) Save(db *pg.DB) error {
+	insertErr := db.Insert(pi)
+	if insertErr != nil {
+		log.Printf("Error while inserting new item into DB, Reason: %v\n", insertErr)
+		return insertErr
+	}
+	log.Printf("ProductItem %s insert successfull\n ", pi.Name)
 	return nil
 }
