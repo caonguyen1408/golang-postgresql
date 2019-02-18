@@ -12,6 +12,12 @@ docker run --name some-pgadmin4 \
            -p 5050:5050 \
            -d fenglc/pgadmin4
 ```
+```
+http://127.0.0.1:5050
+username: pgadmin4@pgadmin.org
+password: admin
+```
+
 Create server 
 ```
 Host name/address: docker ip
