@@ -8,7 +8,14 @@ Install postgresql admin
 
 ```
 docker run --name some-pgadmin4 \
-           --link some-postgres:postgres \
+           --link db \
            -p 5050:5050 \
            -d fenglc/pgadmin4
+```
+Create server 
+```
+Host name/address: docker ip
+Port: 5432
+Username: postgres
+Password: 123
 ```
