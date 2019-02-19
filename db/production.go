@@ -66,11 +66,34 @@ func (pi *ProductItem) Delete(db *pg.DB) error {
 
 //update database
 func (pi *ProductItem) Update(db *pg.DB) error {
-	_, updateErr := db.Model(pi).Set("name = ?name").Where("id= ?id").Update()
+	tx, txErr := db.Begin()
+	if txErr != nil {
+		log.Printf("Error while open tx, Reason %v\n", txErr)
+		return txErr
+	}
+	_, updateErr := tx.Model(pi).Set("name = ?name").Where("id= ?id").Update()
 	if updateErr != nil {
 		log.Printf("Error while inserting new item into DB, Reason: %v\n", updateErr)
+		tx.Rollback()
 		return updateErr
 	}
+	tx.Commit()
 	log.Printf("ProductItem %s delete successfull\n ", pi.Name)
+	return nil
+}
+
+// get by id
+func (pi *ProductItem) GetbyID(db *pg.DB) error {
+	var pis []ProductItem
+	getByID := db.Model(&pis).
+		Where("id = ?0", pi.ID).
+		WhereOr("name = ?0", pi.Name).
+		Order("id desc").
+		Select()
+	if getByID != nil {
+		log.Printf("Error while inserting new item into DB, Reason: %v\n", getByID)
+		return getByID
+	}
+	log.Printf("ProductItem %s delete successfull\n ", pis)
 	return nil
 }

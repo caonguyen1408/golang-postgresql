@@ -14,8 +14,17 @@ func main() {
 	pg_db := db.Connect()
 	//insertProduct(pg_db)
 	//deleteProduct(pg_db)
-	updateProduct(pg_db)
+	//updateProduct(pg_db)
+	getProduct(pg_db)
+}
 
+//get by id
+func getProduct(dbRef *pg.DB) {
+	newPI := &db.ProductItem{
+		ID:   1,
+		Name: "Product 2",
+	}
+	newPI.GetbyID(dbRef)
 }
 
 //update data in table
